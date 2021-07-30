@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "domain": "nswcovid",
+  "name": "NSW Covid",
+  "config_flow": true,
+  "documentation": "https://github.com/troykelly/homeassistant-au-nsw-covid/wiki",
+  "issue_tracker": "https://github.com/troykelly/homeassistant-au-nsw-covid/issues",
+  "requirements": [],
+  "ssdp": [],
+  "zeroconf": [],
+  "homekit": {},
+  "dependencies": [],
+  "codeowners": [
+    "@troykelly"
+  ],
+  "iot_class": "cloud_polling"
+}

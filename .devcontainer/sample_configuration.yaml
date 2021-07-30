@@ -1,0 +1,10 @@
+---
+default_config:
+logger:
+  default: debug
+  logs:
+    nswcovid: debug
+    custom_components.nswcovid: debug
+frontend:
+  themes: !include_dir_merge_named themes
+nswcovid:
