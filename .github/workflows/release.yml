@@ -24,20 +24,20 @@ jobs:
 
       - name: "Set version number"
         run: |
-          sed -i '/INTEGRATION_VERSION = /c\INTEGRATION_VERSION = "${{ steps.version.outputs.version }}"' ${{ github.workspace }}/custom_components/trackimo/const.py
+          sed -i '/INTEGRATION_VERSION = /c\INTEGRATION_VERSION = "${{ steps.version.outputs.version }}"' ${{ github.workspace }}/custom_components/nswcovid/const.py
           python3 ${{ github.workspace }}/manage/update_manifest.py --version ${{ steps.version.outputs.version }}
 
-      # Pack the TRACKIMO dir as a zip and upload to the release
-      - name: ZIP TRACKIMO Dir
+      # Pack the NSWCovid dir as a zip and upload to the release
+      - name: ZIP NSWCovid Dir
         run: |
-          cd ${{ github.workspace }}/custom_components/trackimo
-          zip trackimo.zip -r ./
+          cd ${{ github.workspace }}/custom_components/nswcovid
+          zip nswcovid.zip -r ./
       - name: Upload zip to release
         uses: svenstaro/upload-release-action@v1-release
 
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ github.workspace }}/custom_components/trackimo/trackimo.zip
-          asset_name: trackimo.zip
+          file: ${{ github.workspace }}/custom_components/nswcovid/nswcovid.zip
+          asset_name: nswcovid.zip
           tag: ${{ github.ref }}
           overwrite: true
