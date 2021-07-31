@@ -5,7 +5,7 @@ from typing import Final
 
 DOMAIN: Final = "nswcovid"
 
-INTEGRATION_VERSION: Final = "0.0.1"
+INTEGRATION_VERSION: Final = "dev"
 
 NSWHEALTH_HOST: Final = "www.health.nsw.gov.au"
 NSWHEALTH_PATH: Final = "Infectious/covid-19/Pages/stats-nsw.aspx"

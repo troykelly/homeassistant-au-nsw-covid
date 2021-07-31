@@ -24,7 +24,7 @@ jobs:
 
       - name: "Set version number"
         run: |
-          sed -i '/INTEGRATION_VERSION = /c\INTEGRATION_VERSION = "${{ steps.version.outputs.version }}"' ${{ github.workspace }}/custom_components/nswcovid/const.py
+          sed -i '/INTEGRATION_VERSION: Final = /c\INTEGRATION_VERSION: Final = "${{ steps.version.outputs.version }}"' ${{ github.workspace }}/custom_components/nswcovid/const.py
           python3 ${{ github.workspace }}/manage/update_manifest.py --version ${{ steps.version.outputs.version }}
 
       # Pack the NSWCovid dir as a zip and upload to the release
