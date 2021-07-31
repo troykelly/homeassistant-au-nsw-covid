@@ -22,12 +22,18 @@ _Covid cases and vaccination data from NSW Health_
 1. In `Integrations` add the `NSW Covid` integration
    - In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "NSW Covid"
 
+## Note
+
+This is a screen scraper. That is not allowed in Home Assistant.
+
+There just is no other way to get this data.
+
 ## Usage
 
 This will create a series of sensors with current NSW Health Covid data.
 
 Keep in mind - NSW Health manually updates their website, when they please.
-Aunty Glady's does her briefing at 11am, and sometimes the page is not
+Aunty Gladys does her briefing at 11am, and sometimes the page is not
 updated until late in the afternoon.
 
 ## Contributions are welcome!
@@ -42,7 +48,7 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 [commits-shield]: https://img.shields.io/github/commit-activity/y/troykelly/python-nswcovid.svg?style=for-the-badge
 [commits]: https://github.com/troykelly/python-nswcovid/commits/master
 [hacs]: https://github.com/custom-components/hacs
-[hacsbadge]: https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge
+[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
 [discord]: https://discord.gg/Qa5fW2R
 [discord-shield]: https://img.shields.io/discord/330944238910963714.svg?style=for-the-badge
 [exampleimg]: example.png

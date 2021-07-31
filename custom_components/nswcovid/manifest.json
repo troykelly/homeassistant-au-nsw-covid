@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1",
+  "version": "dev",
   "domain": "nswcovid",
   "name": "NSW Covid",
   "config_flow": true,
