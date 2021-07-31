@@ -9,7 +9,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.components.sensor import DOMAIN as SENSOR
 
-from .nswcovid import NSWCovid
+from nswcovid import NSWCovid
 
 from .const import DOMAIN
 

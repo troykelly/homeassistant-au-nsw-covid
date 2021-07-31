@@ -6,7 +6,7 @@ import voluptuous as vol
 from homeassistant import config_entries, core, exceptions
 from homeassistant.data_entry_flow import FlowResult
 
-from .nswcovid import NSWCovid
+from nswcovid import NSWCovid
 
 from .const import DOMAIN
 

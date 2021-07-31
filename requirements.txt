@@ -19,3 +19,4 @@ queueman==0.5
 requests==2.25.1
 vulture==2.3
 beautifulsoup4==4.9.0
+nswcovid>=0.0.3

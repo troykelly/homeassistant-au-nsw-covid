@@ -65,7 +65,7 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
-DEFAULT_SCAN_INTERVAL = timedelta(seconds=30)
+DEFAULT_SCAN_INTERVAL = timedelta(minutes=30)
 SCAN_INTERVAL = DEFAULT_SCAN_INTERVAL
 
 
