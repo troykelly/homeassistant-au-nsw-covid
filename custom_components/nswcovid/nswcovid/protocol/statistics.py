@@ -326,9 +326,11 @@ class StatisticHandler(object):
                     self.__statistics[statistic_id] = Statistic(
                         handler=self, id=statistic_id, data=statistic_reference
                     )
-                    await self.__statistics[statistic_id].refresh()
             page += 1
             all_statistics = await self.__listall(limit=limit, page=page)
+        statistic_ids = self.__statistics.keys()
+        for id in statistic_ids:
+            await self.__statistics[id].refresh()
         return self.__statistics
 
     async def __listall(self, limit=20, page=1):
@@ -428,40 +430,18 @@ class StatisticHandler(object):
             statistic.updated = retrieved
         return statistic
 
-    async def __refresh(self):
+    async def __refresh(self, event_receiver=None):
+        await self.__protocol.api_get()
         statistic_ids = self.__statistics.keys()
-        changed_statistics = list()
         for id in statistic_ids:
-            await self.__statistics[id].refresh()
-            if self.__statistics[id].changed:
-                changed_statistics.append(id)
-        return changed_statistics
+            self.__protocol.loop.create_task(
+                self.__statistics[id].refresh(event_receiver)
+            )
 
     async def __track(self, interval, event_receiver=None):
         while True:
             _logger.debug("track is checking for changes...")
-            changed_statistics = await self.__refresh()
-            if changed_statistics:
-                _logger.debug(
-                    "Statistics changed: %s", ", ".join(map(str, changed_statistics))
-                )
-                if event_receiver:
-                    for statistic_id in changed_statistics:
-                        statistic = self.__statistics[statistic_id]
-                        try:
-                            event_receiver(
-                                event_type="statistic",
-                                statistic_id=statistic_id,
-                                statistic=statistic,
-                                ts=statistic.updated,
-                            )
-                            _logger.debug(
-                                "Change sent to event handler for %s (%d)",
-                                statistic.name,
-                                statistic.id,
-                            )
-                        except Exception as err:
-                            _logger.exception(err)
+            await self.__refresh(event_receiver)
             await asyncio.sleep(interval.total_seconds())
 
     def track(self, interval=None, event_receiver=None):
@@ -530,11 +510,26 @@ class Statistic(object):
 
         return changed
 
-    async def refresh(self):
+    async def refresh(self, event_receiver=None):
         if not self.__id:
             return
         _logger.debug("Updating statistic %s value", self.__id)
         await self.__handler.details(self.__id)
+        if self.changed and event_receiver is not None:
+            try:
+                event_receiver(
+                    event_type="statistic",
+                    statistic_id=self.__id,
+                    statistic=self,
+                    ts=self.updated,
+                )
+                _logger.debug(
+                    "Change sent to event handler for %s (%d)",
+                    self.name,
+                    self.id,
+                )
+            except Exception as err:
+                _logger.exception(err)
 
     @property
     def id(self):
