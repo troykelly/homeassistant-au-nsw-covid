@@ -1,4 +1,4 @@
-# Readme
+# NSW Covid Cases
 
 [![GitHub Release][releases-shield]][releases]
 [![GitHub Activity][commits-shield]][commits]

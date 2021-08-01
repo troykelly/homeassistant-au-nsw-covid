@@ -68,6 +68,8 @@ _LOGGER = logging.getLogger(__name__)
 DEFAULT_SCAN_INTERVAL = timedelta(minutes=30)
 SCAN_INTERVAL = DEFAULT_SCAN_INTERVAL
 
+TIMESTAMP_TYPES = ["nswcoviddate", "date", "time", "datetime"]
+
 
 async def async_setup_entry(hass: HomeAssistantType, entry, async_add_entities):
     """Configure a dispatcher connection based on a config entry."""
@@ -137,7 +139,7 @@ class NSWCovidEntry(RestoreEntity):
     @property
     def icon(self):
         try:
-            return self.__statistic.icon
+            return self.__statistic.iconId
         except AttributeError:
             return "mdi:virus-outline"
 
@@ -156,12 +158,40 @@ class NSWCovidEntry(RestoreEntity):
     @property
     def unit_of_measurement(self):
         """Return the unit of measurement"""
+        if (
+            self.__statistic.typeName
+            and self.__statistic.typeName is not None
+            and self.__statistic.typeName in TIMESTAMP_TYPES
+        ):
+            return "ISO8601"
         return self.__statistic.unit
 
     @property
     def state(self):
         """Return the sensor state"""
+        _LOGGER.debug(
+            "%s returning state: %s", self.__statistic.id, self.__statistic.status
+        )
+        if not self.__statistic.status:
+            return None
+        if self.__statistic.typeName in TIMESTAMP_TYPES:
+            return self.__statistic.status.isoformat()
+        if self.__statistic.typeName == "integer":
+            return int(self.__statistic.status)
+        if self.__statistic.typeName == "float":
+            return float(self.__statistic.status)
         return self.__statistic.status
+
+    @property
+    def device_class(self):
+        """Return the device class if relevent"""
+        if (
+            self.__statistic.typeName
+            and self.__statistic.typeName is not None
+            and self.__statistic.typeName in TIMESTAMP_TYPES
+        ):
+            return "timestamp"
+        return None
 
     async def async_update(self):
         """Update NSW Covid Data"""
