@@ -5,13 +5,13 @@
   "config_flow": true,
   "documentation": "https://github.com/troykelly/homeassistant-au-nsw-covid/wiki",
   "issue_tracker": "https://github.com/troykelly/homeassistant-au-nsw-covid/issues",
-  "requirements": [],
+  "requirements": [
+    "nswcovid>=0.0.7"
+  ],
   "ssdp": [],
   "zeroconf": [],
   "homekit": {},
-  "dependencies": [
-    "nswcovid==0.0.7"
-  ],
+  "dependencies": [],
   "codeowners": [
     "@troykelly"
   ],
