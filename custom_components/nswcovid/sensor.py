@@ -2,14 +2,8 @@
 from datetime import timedelta
 import logging
 
-import async_timeout
-
-import voluptuous as vol
-from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.const import (
-    CONF_EVENT,
-    CONF_MONITORED_CONDITIONS,
-    CONF_SCAN_INTERVAL,
+    ATTR_ATTRIBUTION,
 )
 from homeassistant.core import callback
 from homeassistant.helpers import device_registry
@@ -192,6 +186,13 @@ class NSWCovidEntry(RestoreEntity):
         ):
             return "timestamp"
         return None
+
+    @property
+    def device_state_attributes(self):
+        """Return the state attributes of the device."""
+        attr = {}
+        attr[ATTR_ATTRIBUTION] = self.__statistic.attribution
+        return attr
 
     async def async_update(self):
         """Update NSW Covid Data"""
