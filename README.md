@@ -1,5 +1,5 @@
 
-# NSW COVID-19 Cases
+# NSW COVID-19 Case & Vacination Data for Home Assistant
 
 [![GitHub Release][releases-shield]][releases]
 [![GitHub Activity][commits-shield]][commits]
@@ -15,8 +15,6 @@
 
 _Covid cases and vaccination data sourced directly from New South Wales Health_
 <img width="467" alt="NSW Health Covid Sensors" src="https://user-images.githubusercontent.com/4564803/127804075-05ee9641-ed7b-45f0-98ac-5d833538cb37.png">
-
-# NSW COVID-19 Case & Vacination Data for Home Assistant
 
 Track daily changes in the New South Wales health districts.
 
