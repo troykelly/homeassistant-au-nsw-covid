@@ -84,13 +84,15 @@ async def async_setup_entry(hass: HomeAssistantType, entry, async_add_entities):
             hass.data[DOMAIN]["entity_ref"][statistic.id] = NSWCovidEntry(statistic)
             entities.append(hass.data[DOMAIN]["entity_ref"][statistic.id])
 
-    def device_event_handler(event_type=None, device_id=None, device=None, ts=None):
-        if not (event_type and device):
-            _LOGGER.warning("Event received with no type or device")
+    def device_event_handler(
+        event_type=None, statistic_id=None, statistic=None, ts=None
+    ):
+        if not (event_type and statistic):
+            _LOGGER.warning("Event received with no type or statistic")
             return None
-        _LOGGER.debug("%s event received: %d", event_type, device_id)
+        _LOGGER.debug("[%s] %s event received: %s", ts, event_type, statistic_id)
         try:
-            hass.data[DOMAIN]["entity_ref"][device.id].async_device_changed()
+            hass.data[DOMAIN]["entity_ref"][statistic.id].async_device_changed()
         except Exception as err:
             _LOGGER.error("Unable to send update to HA")
             _LOGGER.exception(err)
@@ -98,7 +100,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry, async_add_entities):
 
     async_add_entities(entities)
 
-    hass.data[DOMAIN]["tasks"]["device_tracker"] = api.track(
+    hass.data[DOMAIN]["tasks"]["statistic_tracker"] = api.track(
         interval=SCAN_INTERVAL, event_receiver=device_event_handler
     )
 
@@ -115,7 +117,7 @@ class NSWCovidEntry(RestoreEntity):
 
     def async_device_changed(self):
         """Send changed data to HA"""
-        _LOGGER.debug("%s (%d) advising HA of update", self.name, self.unique_id)
+        _LOGGER.debug("%s (%s) advising HA of update", self.name, self.unique_id)
         self.async_schedule_update_ha_state()
 
     @property
