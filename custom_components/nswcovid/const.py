@@ -14,6 +14,7 @@ NSWHEALTH_NAME: Final = "Covid NSW"
 
 NSWHEALTH_UPDATE: Final = f"{DOMAIN}_tracker_update"
 
+ATTR_PUBLISHED: Final = "published"
 ATTR_LOCALLY_ACTIVE: Final = "locally_active"
 ATTR_INTERSTATE_ACTIVE: Final = "interstate_active"
 ATTR_OVERSEAS_ACTIVE: Final = "overseas_active"

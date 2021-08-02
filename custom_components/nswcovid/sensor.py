@@ -17,6 +17,7 @@ from homeassistant.util import slugify
 
 from . import DOMAIN
 from .const import (
+    ATTR_PUBLISHED,
     ATTR_LOCALLY_ACTIVE,
     ATTR_INTERSTATE_ACTIVE,
     ATTR_OVERSEAS_ACTIVE,
@@ -192,6 +193,7 @@ class NSWCovidEntry(RestoreEntity):
         """Return the state attributes of the device."""
         attr = {}
         attr[ATTR_ATTRIBUTION] = self.__statistic.attribution
+        attr[ATTR_PUBLISHED] = self.__statistic.published
         return attr
 
     async def async_update(self):
