@@ -14,6 +14,9 @@
 [![Community Forum][forum-shield]][forum]
 
 _Covid cases and vaccination data sourced directly from New South Wales Health_
+
+<img width="503" alt="NSW Covid Stats for Home Assistant" src="https://user-images.githubusercontent.com/4564803/127966191-337817de-a656-438e-b53e-3ba79d2a23cd.png">
+
 <img width="467" alt="NSW Health Covid Sensors" src="https://user-images.githubusercontent.com/4564803/127804075-05ee9641-ed7b-45f0-98ac-5d833538cb37.png">
 
 Track daily changes in the New South Wales health districts.
