@@ -73,7 +73,7 @@ template:
        - name: "Covid NSW Last 24 Hours State"
          unique_id: "covid_nsw_last_24_hours_state"
          icon: "mdi:virus"
-         unit_of_measurement: "case"
+         unit_of_measurement: "cases"
          state: >
            {% set total = states('sensor.covid_nsw_last_24_hours_total') | int %}
            {% set overseas = states('sensor.covid_nsw_last_24_hours_overseas_source') | int %}
