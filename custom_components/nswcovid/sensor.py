@@ -161,6 +161,16 @@ class NSWCovidEntry(RestoreEntity):
             and self.__statistic.typeName in TIMESTAMP_TYPES
         ):
             return "ISO8601"
+
+        if self.__statistic.unit and self.__statistic.unit == "case":
+            return "cases"
+
+        if self.__statistic.unit and self.__statistic.unit == "dose":
+            return "doses"
+
+        if self.__statistic.unit and self.__statistic.unit == "test":
+            return "tests"
+
         return self.__statistic.unit
 
     @property
