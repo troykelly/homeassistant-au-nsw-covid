@@ -40,6 +40,14 @@ This is a screen scraper. That is not allowed in Home Assistant.
 
 There just is no other way to get this data.
 
+### Missing Information
+
+One number that would be great to have is "cases in community" especially in the last 24 hours.
+
+NSW Health does not publish this number. In a press conference, it was stated that the number is too fluid.
+
+If you have a source of extra information that you would like to see - create an issue!
+
 ## Usage
 
 This will create a series of sensors with current NSW Health Covid data.
@@ -47,6 +55,27 @@ This will create a series of sensors with current NSW Health Covid data.
 Keep in mind - NSW Health manually updates their website, when they please.
 Aunty Gladys does her briefing at 11am, and sometimes the page is not
 updated until late in the afternoon.
+
+## Template Sensors
+
+Some numbers are derived from the data. You can calculate these as a template sensor.
+
+### Local Cases (all of NSW)
+
+A calculation of `total cases` - the sum of `interstate` and `overseas`
+
+```yaml
+template:
+  - sensor:
+      - name: "Covid NSW Last 24 Hours State"
+        unit_of_measurement: "case"
+        state: >
+          {% set total = states('sensor.covid_nsw_last_24_hours_total') | int %}
+					{% set overseas = states('sensor.covid_nsw_last_24_hours_overseas_source') | int %}
+					{% set interstate = states('sensor.covid_nsw_last_24_hours_interstate_source') | int %}
+					{% set out_of_state = (overseas + interstate) %}
+					{{ (total - out_of_state) }}
+```
 
 ## Data Attribution
 
