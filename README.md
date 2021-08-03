@@ -71,10 +71,10 @@ template:
         unit_of_measurement: "case"
         state: >
           {% set total = states('sensor.covid_nsw_last_24_hours_total') | int %}
-					{% set overseas = states('sensor.covid_nsw_last_24_hours_overseas_source') | int %}
-					{% set interstate = states('sensor.covid_nsw_last_24_hours_interstate_source') | int %}
-					{% set out_of_state = (overseas + interstate) %}
-					{{ (total - out_of_state) }}
+          {% set overseas = states('sensor.covid_nsw_last_24_hours_overseas_source') | int %}
+          {% set interstate = states('sensor.covid_nsw_last_24_hours_interstate_source') | int %}
+          {% set out_of_state = (overseas + interstate) %}
+          {{ (total - out_of_state) }}
 ```
 
 ## Data Attribution
