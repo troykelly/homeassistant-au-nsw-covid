@@ -101,7 +101,7 @@ template:
            {% set total_population = 8166000 %}
            {% set second_dose_total = states('sensor.covid_nsw_total_second_dose_vaccine') | int %}
            {% set state_second_dose_vaccinated_total = second_dose_total / total_population %}
-           {{ state_second_dose_vaccinated_total * 100 }}
+           {{ (state_second_dose_vaccinated_total * 100)|round(2, 'floor') }}
          attributes:
            attribution: >
              {{ state_attr('sensor.covid_nsw_total_second_dose_vaccine', 'attribution') }}
@@ -111,17 +111,17 @@ template:
              {% set total_population = 8166000 %}
              {% set first_dose_total = states('sensor.covid_nsw_total_first_dose_vaccine') | int %}
              {% set state_first_dose_vaccinated_total = first_dose_total / total_population %}
-             {{ state_first_dose_vaccinated_total * 100 }}
+             {{ (state_first_dose_vaccinated_total * 100)|round(2, 'floor') }}
            first_dose_last_24_hours: >
              {% set total_population = 8166000 %}
              {% set first_dose_last24 = states('sensor.covid_nsw_last_24_hours_first_dose_vaccine') | int %}
              {% set state_first_dose_vaccinated_last24 = first_dose_last24 / total_population %}
-             {{ state_first_dose_vaccinated_last24 * 100 }}
+             {{ (state_first_dose_vaccinated_last24 * 100)|round(6, 'floor') }}
            last_24_hours: >
              {% set total_population = 8166000 %}
              {% set second_dose_last24 = states('sensor.covid_nsw_last_24_hours_second_dose_vaccine') | int %}
              {% set state_second_dose_vaccinated_last24 = second_dose_last24 / total_population %}
-             {{ state_second_dose_vaccinated_last24 * 100 }}
+             {{ (state_second_dose_vaccinated_last24 * 100)|round(6, 'floor') }}
 ```
 
 ## Data Attribution
