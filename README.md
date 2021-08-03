@@ -66,15 +66,22 @@ A calculation of `total cases` - the sum of `interstate` and `overseas`
 
 ```yaml
 template:
-  - sensor:
-      - name: "Covid NSW Last 24 Hours State"
-        unit_of_measurement: "case"
-        state: >
-          {% set total = states('sensor.covid_nsw_last_24_hours_total') | int %}
-          {% set overseas = states('sensor.covid_nsw_last_24_hours_overseas_source') | int %}
-          {% set interstate = states('sensor.covid_nsw_last_24_hours_interstate_source') | int %}
-          {% set out_of_state = (overseas + interstate) %}
-          {{ (total - out_of_state) }}
+   - sensor:
+       - name: "Covid NSW Last 24 Hours State"
+         unique_id: "covid_nsw_last_24_hours_state"
+         icon: "mdi:virus"
+         unit_of_measurement: "case"
+         state: >
+           {% set total = states('sensor.covid_nsw_last_24_hours_total') | int %}
+           {% set overseas = states('sensor.covid_nsw_last_24_hours_overseas_source') | int %}
+           {% set interstate = states('sensor.covid_nsw_last_24_hours_interstate_source') | int %}
+           {% set out_of_state = (overseas + interstate) %}
+           {{ (total - out_of_state) }}
+         attributes:
+           attribution: >
+             {{ state_attr('sensor.covid_nsw_last_24_hours_total', 'attribution') }}
+           published: >
+             {{ state_attr('sensor.covid_nsw_last_24_hours_total', 'published') }}
 ```
 
 ## Data Attribution
