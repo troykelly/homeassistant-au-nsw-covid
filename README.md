@@ -84,6 +84,46 @@ template:
              {{ state_attr('sensor.covid_nsw_last_24_hours_total', 'published') }}
 ```
 
+### Vaccination Rate
+
+Percentage of NSW population who've had second dose.
+
+Assuming population is `8166000`
+
+```yaml
+template:
+   - sensor:
+       - name: "Covid NSW Fully Vaccinated"
+         unique_id: "covid_nsw_state_vaccination_rate"
+         icon: "mdi:needle"
+         unit_of_measurement: "%"
+         state: >
+           {% set total_population = 8166000 %}
+           {% set second_dose_total = states('sensor.covid_nsw_total_second_dose_vaccine') | int %}
+           {% set state_second_dose_vaccinated_total = second_dose_total / total_population %}
+           {{ state_second_dose_vaccinated_total * 100 }}
+         attributes:
+           attribution: >
+             {{ state_attr('sensor.covid_nsw_total_second_dose_vaccine', 'attribution') }}
+           published: >
+             {{ state_attr('sensor.covid_nsw_total_second_dose_vaccine', 'published') }}
+           first_dose: >
+             {% set total_population = 8166000 %}
+             {% set first_dose_total = states('sensor.covid_nsw_total_first_dose_vaccine') | int %}
+             {% set state_first_dose_vaccinated_total = first_dose_total / total_population %}
+             {{ state_first_dose_vaccinated_total * 100 }}
+           first_dose_last_24_hours: >
+             {% set total_population = 8166000 %}
+             {% set first_dose_last24 = states('sensor.covid_nsw_last_24_hours_first_dose_vaccine') | int %}
+             {% set state_first_dose_vaccinated_last24 = first_dose_last24 / total_population %}
+             {{ state_first_dose_vaccinated_last24 * 100 }}
+           last_24_hours: >
+             {% set total_population = 8166000 %}
+             {% set second_dose_last24 = states('sensor.covid_nsw_last_24_hours_second_dose_vaccine') | int %}
+             {% set state_second_dose_vaccinated_last24 = second_dose_last24 / total_population %}
+             {{ state_second_dose_vaccinated_last24 * 100 }}
+```
+
 ## Data Attribution
 
 © State of New South Wales NSW Ministry of Health. For current information go to www.health.nsw.gov.au
