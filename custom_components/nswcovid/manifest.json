@@ -6,7 +6,8 @@
   "documentation": "https://github.com/troykelly/homeassistant-au-nsw-covid/wiki",
   "issue_tracker": "https://github.com/troykelly/homeassistant-au-nsw-covid/issues",
   "requirements": [
-    "nswcovid==0.1.1"
+    "nswcovid==0.1.1",
+    "jq=>1.2.0"
   ],
   "ssdp": [],
   "zeroconf": [],
