@@ -94,6 +94,13 @@ from .const import (
     ATTR_CASES_MALE_70_79,
     ATTR_CASES_MALE_80_89,
     ATTR_CASES_MALE_90_PLUS,
+    ATTR_DOSES,
+    ATTR_NSW_HEALTH_DOSES_DAILY,
+    ATTR_NSW_HEALTH_DOSES_CUMULATIVE,
+    ATTR_GP_NETWORK_DOSES_CUMULATIVE,
+    ATTR_NSW_HEALTH_DOSES_UPDATED,
+    ATTR_GP_NETWORK_DOSES_UPDATED,
+    ATTR_ALL_PROVIDERS_DOSES_CUMULATIVE,
     DEVICE_CLASS_COVID_CASES,
     DEVICE_CLASS_COVID_VACCINATIONS,
     NSWHEALTH_NAME,
@@ -195,6 +202,12 @@ async def async_setup_entry(hass: HomeAssistantType, entry, async_add_entities):
         hass.data[DOMAIN]["entity_ref"][ATTR_CASES].event_listener
     )
     entities.append(hass.data[DOMAIN]["entity_ref"][ATTR_CASES])
+
+    hass.data[DOMAIN]["entity_ref"][ATTR_DOSES] = NSWCovidDoses(api.statistics)
+    hass.data[DOMAIN][entry.entry_id].addListener(
+        hass.data[DOMAIN]["entity_ref"][ATTR_DOSES].event_listener
+    )
+    entities.append(hass.data[DOMAIN]["entity_ref"][ATTR_DOSES])
 
     async_add_entities(entities)
 
@@ -580,6 +593,133 @@ class NSWCovidCases(RestoreEntity):
 
     async def async_update(self):
         """Update NSW Covid Data"""
+        for statistic_id in self.__tracked:
+            statistic = getattr(self.__statistics, statistic_id, None)
+            if statistic:
+                await statistic.refresh()
+
+    async def async_added_to_hass(self):
+        """Register state update callback."""
+        await super().async_added_to_hass()
+
+    async def async_will_remove_from_hass(self):
+        """Clean up after entity before removal."""
+        await super().async_will_remove_from_hass()
+
+
+class NSWCovidDoses(RestoreEntity):
+    """Represent a NSW Covid Dose Sensor."""
+
+    def __init__(
+        self,
+        statistics,
+    ):
+        """Set up NSW Covid Cases entity."""
+        self.__statistics = statistics
+        self.__id = ATTR_DOSES
+        self.__tracked = [
+            ATTR_NSW_HEALTH_DOSES_DAILY,
+            ATTR_NSW_HEALTH_DOSES_CUMULATIVE,
+            ATTR_GP_NETWORK_DOSES_CUMULATIVE,
+            ATTR_NSW_HEALTH_DOSES_UPDATED,
+            ATTR_GP_NETWORK_DOSES_UPDATED,
+            ATTR_ALL_PROVIDERS_DOSES_CUMULATIVE,
+        ]
+
+    def async_device_changed(self):
+        """Send changed data to HA"""
+        _LOGGER.debug("%s (%s) advising HA of update", self.name, self.unique_id)
+        self.async_schedule_update_ha_state()
+
+    def event_listener(self, payload):
+        """Checks for updates to child stats"""
+        if not (
+            payload.event_type
+            and payload.id
+            and payload.event_type == "statistic_updated"
+        ):
+            return None
+        if not payload.id in self.__tracked:
+            return None
+        self.async_device_changed()
+        return True
+
+    @property
+    def device_info(self):
+        """Return the device_info of the device."""
+        return {
+            "identifiers": {(DOMAIN, self.unique_id)},
+            "name": self.name,
+            "manufacturer": MANUFACTURER,
+        }
+
+    @property
+    def should_poll(self):
+        """The device should not poll"""
+        return False
+
+    @property
+    def icon(self):
+        """Return the device icon"""
+        return "mdi:needle"
+
+    @property
+    def name(self):
+        """Return the name of the device."""
+        return f"{NSWHEALTH_NAME} Doses"
+
+    @property
+    def unique_id(self):
+        """Return the unique ID."""
+        return self.__id
+
+    @property
+    def unit_of_measurement(self):
+        """Return the unit of measurement"""
+        return "doses"
+
+    @property
+    def available(self):
+        """Return the sensor available flag"""
+        if not ATTR_ALL_PROVIDERS_DOSES_CUMULATIVE in self.__statistics:
+            return False
+        return True
+
+    @property
+    def state(self):
+        """Return the sensor state"""
+        if not ATTR_ALL_PROVIDERS_DOSES_CUMULATIVE in self.__statistics:
+            return None
+        return self.__statistics[ATTR_ALL_PROVIDERS_DOSES_CUMULATIVE].status
+
+    @property
+    def device_class(self):
+        """Return the device class if relevent"""
+        return None
+
+    @property
+    def device_state_attributes(self):
+        """Return the state attributes of the device."""
+        attr = {}
+        attr[ATTR_ATTRIBUTION] = None
+        for statistic_id in self.__tracked:
+            _LOGGER.debug("Attributes checking %s", statistic_id)
+            if (
+                statistic_id in self.__statistics
+                and statistic_id != ATTR_ALL_PROVIDERS_DOSES_CUMULATIVE
+            ):
+                statistic = self.__statistics[statistic_id]
+                status = getattr(statistic, "status", 0)
+                if not attr[ATTR_ATTRIBUTION]:
+                    attribution = getattr(statistic, "attribution", None)
+                    if attribution:
+                        attr[ATTR_ATTRIBUTION] = attribution
+                _LOGGER.debug("Attributes status %s: %s", statistic_id, status)
+                attr[statistic_id] = status
+        return attr
+
+    async def async_update(self):
+        """Update NSW Covid Dose Data"""
         for statistic_id in self.__tracked:
             statistic = getattr(self.__statistics, statistic_id, None)
             if statistic:
