@@ -313,6 +313,23 @@ class NSWCovidEntry(RestoreEntity):
         return None
 
     @property
+    def state_class(self):
+        """Return the state class if relevent"""
+        measurement = getattr(self.__statistic, "measurement", False)
+        if measurement:
+            return "measurement"
+        else:
+            return None
+
+    @property
+    def last_reset(self):
+        """Return the state class if relevent"""
+        resetting = getattr(self.__statistic, "resetting", False)
+        if not resetting:
+            return None
+        return self.__statistic.published
+
+    @property
     def device_state_attributes(self):
         """Return the state attributes of the device."""
         attr = {}
@@ -435,6 +452,11 @@ class NSWCovidDeaths(RestoreEntity):
     def device_class(self):
         """Return the device class if relevent"""
         return None
+
+    @property
+    def state_class(self):
+        """Return the state class if relevent"""
+        return "measurement"
 
     @property
     def device_state_attributes(self):
@@ -572,6 +594,11 @@ class NSWCovidCases(RestoreEntity):
     def device_class(self):
         """Return the device class if relevent"""
         return None
+
+    @property
+    def state_class(self):
+        """Return the state class if relevent"""
+        return "measurement"
 
     @property
     def device_state_attributes(self):
