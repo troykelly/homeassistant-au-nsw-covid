@@ -91,7 +91,7 @@ template:
 
 Percentage of NSW population who've had second dose.
 
-Assuming population is `8166000`
+Assuming population is `6565651`
 
 ```yaml
 template:
@@ -101,27 +101,37 @@ template:
          icon: "mdi:needle"
          unit_of_measurement: "%"
          state: >
-           {% set total_population = 8166000 %}
-           {% set second_dose_total = states('sensor.covid_nsw_total_second_dose_vaccine') | int %}
-           {% set state_second_dose_vaccinated_total = second_dose_total / total_population %}
+           {% set total_population = 6565651 %}
+           {% set half_dose_total = (states('sensor.covid_nsw_doses') | int) / 2 %}
+           {% set state_second_dose_vaccinated_total = half_dose_total / total_population %}
            {{ (state_second_dose_vaccinated_total * 100)|round(2, 'floor') }}
          attributes:
            attribution: >
-             {{ state_attr('sensor.covid_nsw_total_second_dose_vaccine', 'attribution') }}
+             {{ state_attr('sensor.covid_nsw_doses', 'attribution') }}
            published: >
-             {{ state_attr('sensor.covid_nsw_total_second_dose_vaccine', 'published') }}
+             {{ state_attr('sensor.covid_nsw_doses', 'gp_network_doses_updated') }}
            first_dose: >
-             {% set total_population = 8166000 %}
+             {% set total_population = 6565651 %}
              {% set first_dose_total = states('sensor.covid_nsw_total_first_dose_vaccine') | int %}
              {% set state_first_dose_vaccinated_total = first_dose_total / total_population %}
              {{ (state_first_dose_vaccinated_total * 100)|round(2, 'floor') }}
            first_dose_last_24_hours: >
-             {% set total_population = 8166000 %}
+             {% set total_population = 6565651 %}
              {% set first_dose_last24 = states('sensor.covid_nsw_last_24_hours_first_dose_vaccine') | int %}
              {% set state_first_dose_vaccinated_last24 = first_dose_last24 / total_population %}
              {{ (state_first_dose_vaccinated_last24 * 100)|round(6, 'floor') }}
+           second_dose: >
+             {% set total_population = 6565651 %}
+             {% set second_dose_total = states('sensor.covid_nsw_total_second_dose_vaccine') | int %}
+             {% set state_second_dose_vaccinated_total = second_dose_total / total_population %}
+             {{ (state_second_dose_vaccinated_total * 100)|round(2, 'floor') }}
+           second_dose_last_24_hours: >
+             {% set total_population = 6565651 %}
+             {% set second_dose_last24 = states('sensor.covid_nsw_last_24_hours_second_dose_vaccine') | int %}
+             {% set state_second_dose_vaccinated_last24 = second_dose_last24 / total_population %}
+             {{ (state_second_dose_vaccinated_last24 * 100)|round(6, 'floor') }}
            last_24_hours: >
-             {% set total_population = 8166000 %}
+             {% set total_population = 6565651 %}
              {% set second_dose_last24 = states('sensor.covid_nsw_last_24_hours_second_dose_vaccine') | int %}
              {% set state_second_dose_vaccinated_last24 = second_dose_last24 / total_population %}
              {{ (state_second_dose_vaccinated_last24 * 100)|round(6, 'floor') }}
