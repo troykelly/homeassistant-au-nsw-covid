@@ -147,7 +147,7 @@ ACTIVE_SENSORS = [
 
 _LOGGER = logging.getLogger(__name__)
 
-DEFAULT_SCAN_INTERVAL = timedelta(minutes=30)
+DEFAULT_SCAN_INTERVAL = timedelta(minutes=5)
 SCAN_INTERVAL = DEFAULT_SCAN_INTERVAL
 
 TIMESTAMP_TYPES = ["nswcoviddate", "date", "time", "datetime", "dateymd"]
