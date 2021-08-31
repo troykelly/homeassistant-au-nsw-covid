@@ -265,7 +265,7 @@ class NSWCovidEntry(RestoreEntity, SensorEntity):
         return self.__statistic.id
 
     @property
-    def native_unit_of_measurement(self):
+    def unit_of_measurement(self):
         """Return the unit of measurement"""
         if (
             self.__statistic.typeName
@@ -289,7 +289,7 @@ class NSWCovidEntry(RestoreEntity, SensorEntity):
         return self.__statistic.unit
 
     @property
-    def native_value(self):
+    def state(self):
         """Return the sensor native value"""
         _LOGGER.debug(
             "%s returning state: %s", self.__statistic.id, self.__statistic.status
@@ -441,12 +441,12 @@ class NSWCovidDeaths(RestoreEntity):
         return self.__id
 
     @property
-    def native_unit_of_measurement(self):
+    def unit_of_measurement(self):
         """Return the unit of measurement"""
         return "deaths"
 
     @property
-    def native_value(self):
+    def state(self):
         """Return the sensor state"""
         deaths = 0
         for statistic_id in self.__tracked:
@@ -583,12 +583,12 @@ class NSWCovidCases(RestoreEntity):
         return self.__id
 
     @property
-    def native_unit_of_measurement(self):
+    def unit_of_measurement(self):
         """Return the unit of measurement"""
         return "cases"
 
     @property
-    def native_value(self):
+    def state(self):
         """Return the sensor state"""
         cases = 0
         for statistic_id in self.__tracked:
@@ -711,7 +711,7 @@ class NSWCovidDoses(RestoreEntity):
         return self.__id
 
     @property
-    def native_unit_of_measurement(self):
+    def unit_of_measurement(self):
         """Return the unit of measurement"""
         return "doses"
 
@@ -723,7 +723,7 @@ class NSWCovidDoses(RestoreEntity):
         return True
 
     @property
-    def native_value(self):
+    def state(self):
         """Return the sensor state"""
         if not ATTR_ALL_PROVIDERS_DOSES_CUMULATIVE in self.__statistics:
             return None
