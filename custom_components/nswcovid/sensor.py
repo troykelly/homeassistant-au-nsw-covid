@@ -321,7 +321,9 @@ class NSWCovidEntry(RestoreEntity, SensorEntity):
         measurement = getattr(self.__statistic, "measurement", False)
         resetting = getattr(self.__statistic, "resetting", False)
         if measurement and resetting:
-            return sensor.STATE_CLASS_TOTAL_INCREASING
+            if hasattr(sensor, "STATE_CLASS_TOTAL_INCREASING"):
+                return sensor.STATE_CLASS_TOTAL_INCREASING
+            return sensor.STATE_CLASS_MEASUREMENT
         elif measurement:
             return sensor.STATE_CLASS_MEASUREMENT
         else:
