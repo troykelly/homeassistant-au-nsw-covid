@@ -6,7 +6,7 @@
 [![License][license-shield]](LICENSE.md)
 [![CodeQL][codeqlbadge]][codeql]
 
-[![hacs][hacsbadge]](hacs)
+[![hacs][hacsbadge]][hacs]
 ![Project Maintenance][maintenance-shield]
 [![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
 
@@ -152,7 +152,7 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 [buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
 [commits-shield]: https://img.shields.io/github/commit-activity/y/troykelly/homeassistant-au-nsw-covid.svg?style=for-the-badge
 [commits]: https://github.com/troykelly/homeassistant-au-nsw-covid/commits/master
-[hacs]: https://github.com/custom-components/hacs
+[hacs]: https://github.com/hacs/integration
 [hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
 [codeqlbadge]: https://github.com/troykelly/homeassistant-au-nsw-covid/actions/workflows/codeql-analysis.yml/badge.svg?branch=main&style=for-the-badge
 [codeql]: https://github.com/troykelly/homeassistant-au-nsw-covid/actions/workflows/codeql-analysis.yml
